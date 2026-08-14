@@ -1,0 +1,172 @@
+---
+import Button from './Button.astro';
+import StaggeredMenu from './StaggeredMenu';
+
+const menuItems = [
+	{ label: 'Works', ariaLabel: 'View selected works', link: '#works' },
+	{ label: 'Contact', ariaLabel: 'Get in contact', link: '#contact' },
+	{ label: 'Resume', ariaLabel: 'View resume', link: '#resume' },
+];
+---
+
+<header
+	class="site-navbar"
+	data-site-navbar
+	data-compact="false"
+	aria-label="Site navigation"
+>
+	<div class="identity" role="group" aria-label="Portfolio identity">
+		<p class="name">PRAMSU PANDEY</p>
+		<p class="role">
+			PRODUCT DESIGNER + ENGINEER
+		</p>
+	</div>
+
+	<nav class="primary-nav" aria-label="Primary navigation">
+		<Button
+			href="#pramsugpt"
+			label={'✦\u00a0\u00a0PRAMSUGPT'}
+			ariaLabel="Open PRAMSUGPT"
+		/>
+	</nav>
+
+	<nav class="page-nav" aria-label="Portfolio navigation">
+		<Button href="#works" label="WORKS" ariaLabel="View selected works" />
+		<Button href="#contact" label="CONTACT" ariaLabel="Go to contact section" />
+		<Button href="#resume" label="RESUME" ariaLabel="View resume" />
+	</nav>
+
+	<div class="staggered-menu-host">
+		<StaggeredMenu
+			client:load
+			position="right"
+			colors={['#030260', '#371bff']}
+			items={menuItems}
+			displaySocials={false}
+			displayItemNumbering={false}
+			menuButtonColor="#ffffff"
+			openMenuButtonColor="#371bff"
+			accentColor="#371bff"
+			isFixed={true}
+		/>
+	</div>
+
+	<nav class="mobile-gpt" aria-label="PRAMSUGPT navigation">
+		<Button
+			href="#pramsugpt"
+			label="✦"
+			variant="floating"
+			ariaLabel="Open PRAMSUGPT"
+		/>
+	</nav>
+</header>
+
+<style>
+	.site-navbar {
+		position: absolute;
+		top: 1.5rem;
+		left: 2rem;
+		right: 2rem;
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		color: var(--color-porridge);
+		font-family: "Manrope", system-ui, sans-serif;
+		font-size: 16px;
+		font-style: normal;
+		font-weight: 500;
+		line-height: 100%;
+		letter-spacing: -0.015em;
+	}
+
+	.identity,
+	.page-nav {
+		display: flex;
+		align-items: center;
+	}
+
+	.identity {
+		gap: 1.5rem;
+	}
+
+	.name,
+	.role {
+		margin: 0;
+		white-space: nowrap;
+	}
+
+	.role {
+		color: var(--color-suite-gray);
+	}
+
+	.primary-nav {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.page-nav {
+		gap: 2rem;
+		margin-left: auto;
+	}
+
+	.staggered-menu-host,
+	.mobile-gpt {
+		display: none;
+	}
+
+	.site-navbar[data-compact="true"] .identity {
+		gap: clamp(0.75rem, 3vw, 1.5rem);
+	}
+
+	.site-navbar[data-compact="true"] .primary-nav,
+	.site-navbar[data-compact="true"] .page-nav {
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+	.site-navbar[data-compact="true"] .staggered-menu-host,
+	.site-navbar[data-compact="true"] .mobile-gpt {
+		display: block;
+	}
+
+	.staggered-menu-host :global(.sm-logo) {
+		display: none;
+	}
+
+	.staggered-menu-host :global(.sm-toggle-textWrap) {
+		display: none;
+	}
+</style>
+
+<script>
+	const navbar = document.querySelector<HTMLElement>('[data-site-navbar]');
+	const identity = navbar?.querySelector<HTMLElement>('.identity');
+	const pramsuGpt = navbar?.querySelector<HTMLElement>('.primary-nav');
+
+	if (navbar && identity && pramsuGpt) {
+		let compactAt = 0;
+
+		const updateLayout = () => {
+			navbar.dataset.compact = String(window.innerWidth <= compactAt);
+		};
+
+		const measureBreakpoint = () => {
+			navbar.dataset.compact = 'false';
+			const rootFontSize = Number.parseFloat(
+				getComputedStyle(document.documentElement).fontSize,
+			);
+			const requiredGap = rootFontSize * 1.75;
+			const identityWidth = identity.getBoundingClientRect().width;
+			const pramsuGptWidth = pramsuGpt.getBoundingClientRect().width;
+
+			compactAt = pramsuGptWidth + 2 * (identityWidth + requiredGap * 2);
+			updateLayout();
+		};
+
+		requestAnimationFrame(measureBreakpoint);
+		document.fonts.ready.then(measureBreakpoint);
+		window.addEventListener('resize', updateLayout, { passive: true });
+	}
+</script>

@@ -1,5 +1,8 @@
 ---
-
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
+import BrailleShader from '../components/BrailleShader.astro';
+import '../styles/globals.css';
 ---
 
 <html lang="en">
@@ -9,9 +12,70 @@
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Pramsu's Portoflio</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<div class="page-shell">
+			<div class="page-background" aria-hidden="true">
+				<BrailleShader />
+			</div>
+
+			<Navbar />
+			<main class="page-content">
+				<Hero />
+			</main>
+
+			<p class="page-intro">
+				Hi, I’m Pramsu, a product<br />
+				designer that engineers. I design<br />
+				digital experiences then make them<br />
+				secure and resilient.
+			</p>
+		</div>
 	</body>
 </html>
+
+<style>
+	.page-shell {
+		position: relative;
+		min-height: 100vh;
+	}
+
+	.page-background {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.page-content {
+		position: relative;
+		z-index: 1;
+	}
+
+	.page-intro {
+		position: absolute;
+		bottom: 1.5rem;
+		left: 2rem;
+		z-index: 1;
+		max-width: 42rem;
+		margin: 0;
+		color: var(--color-porridge);
+		font-family: "Manrope", system-ui, sans-serif;
+		font-size: 1.5rem;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 100%;
+		letter-spacing: -0.0375rem;
+	}
+
+	@media (max-width: 40rem) {
+		.page-intro {
+			right: 1.5rem;
+			bottom: 1.5rem;
+			left: 1.5rem;
+		}
+	}
+</style>

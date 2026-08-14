@@ -1,0 +1,161 @@
+---
+interface Props {
+	words?: string[];
+}
+
+const {
+	words = ['ENGINEERING', 'DESIGN', 'SECURITY', 'SCALE'],
+} = Astro.props;
+
+const repeatedGroups = Array.from({ length: 3 }, () => words);
+---
+
+<div
+	class="marquee"
+	data-marquee
+	role="region"
+	aria-label={`Areas of expertise: ${words.join(', ')}`}
+>
+	<div class="marquee__track" data-marquee-track>
+		{
+			repeatedGroups.map((group, groupIndex) => (
+				<div
+					class="marquee__group"
+					data-marquee-group={groupIndex === 0 ? '' : undefined}
+					aria-hidden="true"
+				>
+					{group.map((word) => <span class="marquee__word">{word}</span>)}
+				</div>
+			))
+		}
+	</div>
+</div>
+
+<style>
+	.marquee {
+		--marquee-word-gap: clamp(3rem, 18.75vw, 15rem);
+
+		width: calc(100vw - 5.5rem);
+		height: 1.5rem;
+		overflow: hidden;
+		background: var(--color-porridge);
+		color: var(--color-old-navy);
+	}
+
+	.marquee__track {
+		display: flex;
+		width: max-content;
+		height: 100%;
+		will-change: transform;
+	}
+
+	.marquee__group {
+		display: flex;
+		align-items: center;
+		gap: var(--marquee-word-gap);
+		height: 100%;
+		padding-right: var(--marquee-word-gap);
+	}
+
+	.marquee__word {
+		flex: none;
+		font-family: "Manrope", system-ui, sans-serif;
+		font-size: 15px;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 100%;
+		letter-spacing: -0.02031rem;
+		white-space: nowrap;
+	}
+
+	@media (max-width: 47.99rem) {
+		.marquee {
+			width: calc(100vw - 3rem);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.marquee__track {
+			transform: none !important;
+		}
+	}
+</style>
+
+<script>
+	const marquees = document.querySelectorAll<HTMLElement>('[data-marquee]');
+	const prefersReducedMotion = window.matchMedia(
+		'(prefers-reduced-motion: reduce)',
+	);
+
+	marquees.forEach((marquee) => {
+		const track = marquee.querySelector<HTMLElement>('[data-marquee-track]');
+		const group = marquee.querySelector<HTMLElement>('[data-marquee-group]');
+		const firstWord = group?.querySelector<HTMLElement>('.marquee__word');
+
+		if (!track || !group || !firstWord || prefersReducedMotion.matches) return;
+
+		const baseSpeed = 24;
+		let position = 0;
+		let speed = baseSpeed;
+		let impulse = 0;
+		let lastScrollY = window.scrollY;
+		let lastTime = performance.now();
+		let frameId = 0;
+		let hasSetStartingPosition = false;
+
+		const addScrollImpulse = (delta: number) => {
+			if (delta === 0) return;
+
+			const direction = delta > 0 ? 1 : -1;
+			impulse = direction * Math.min(240, 72 + Math.abs(delta) * 0.45);
+		};
+
+		const onWheel = (event: WheelEvent) => addScrollImpulse(event.deltaY);
+		const onScroll = () => {
+			const delta = window.scrollY - lastScrollY;
+			lastScrollY = window.scrollY;
+			addScrollImpulse(delta);
+		};
+
+		const animate = (time: number) => {
+			const deltaTime = Math.min((time - lastTime) / 1000, 0.05);
+			const groupWidth = group.getBoundingClientRect().width;
+
+			lastTime = time;
+
+			if (!hasSetStartingPosition && groupWidth > 0) {
+				position =
+					marquee.getBoundingClientRect().width / 2 -
+					groupWidth -
+					firstWord.getBoundingClientRect().width / 2;
+				hasSetStartingPosition = true;
+			}
+
+			speed += (baseSpeed + impulse - speed) * Math.min(1, deltaTime * 8);
+			impulse *= Math.pow(0.07, deltaTime);
+			position += speed * deltaTime;
+
+			if (groupWidth > 0) {
+				while (position >= 0) position -= groupWidth;
+				while (position < -groupWidth) position += groupWidth;
+				track.style.transform = `translate3d(${position}px, 0, 0)`;
+			}
+
+			frameId = requestAnimationFrame(animate);
+		};
+
+		window.addEventListener('wheel', onWheel, { passive: true });
+		window.addEventListener('scroll', onScroll, { passive: true });
+		frameId = requestAnimationFrame(animate);
+
+		window.addEventListener(
+			'pagehide',
+			() => {
+				cancelAnimationFrame(frameId);
+				window.removeEventListener('wheel', onWheel);
+				window.removeEventListener('scroll', onScroll);
+			},
+			{ once: true },
+		);
+	});
+</script>

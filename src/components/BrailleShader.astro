@@ -1,0 +1,69 @@
+---
+import branchShader from '../shaders/branch.txt?raw';
+
+const brailleCellAdvance = 0.7125;
+const rows = branchShader
+	.replace(/\n+$/, '')
+	.split('\n')
+	.map((row) =>
+		row
+			.split(/(\u2800+)/)
+			.filter(Boolean)
+			.flatMap((segment) =>
+				segment.startsWith('\u2800')
+					? [{ type: 'gap' as const, cells: segment.length }]
+					: Array.from(segment, (character) => ({
+							type: 'cell' as const,
+							character,
+						})),
+			),
+	);
+---
+
+<pre class="braille-shader">{
+	rows.map((row) => (
+		<span class="braille-shader__row">
+			{row.map((token) =>
+				token.type === 'gap'
+					? <span
+						class="braille-shader__gap"
+						style={`width: ${(token.cells * brailleCellAdvance).toFixed(4)}rem`}
+					></span>
+					: <span class="braille-shader__cell">{token.character}</span>
+			)}
+		</span>
+	))
+}</pre>
+
+<style>
+	.braille-shader {
+		position: absolute;
+		top: 9.1875rem;
+		left: -1.9375rem;
+		margin: 0;
+		color: var(--color-porridge);
+		font-family: "Manrope", system-ui, sans-serif;
+		font-size: 1.5rem;
+		font-style: normal;
+		font-weight: 600;
+		line-height: 100%;
+		letter-spacing: -0.0375rem;
+		white-space: pre;
+	}
+
+	.braille-shader__row {
+		display: block;
+		height: 1em;
+	}
+
+	.braille-shader__cell,
+	.braille-shader__gap {
+		display: inline-block;
+		height: 1em;
+		vertical-align: top;
+	}
+
+	.braille-shader__cell {
+		width: 0.7125rem;
+	}
+</style>
