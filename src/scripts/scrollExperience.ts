@@ -4,6 +4,10 @@ import { SplitText } from 'gsap/SplitText';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
+const rootStyles = getComputedStyle(document.documentElement);
+const blueberry = rootStyles.getPropertyValue('--color-blueberry').trim();
+const porridge = rootStyles.getPropertyValue('--color-porridge').trim();
+
 const experience = document.querySelector<HTMLElement>('[data-scroll-experience]');
 const stage = experience?.querySelector<HTMLElement>('[data-scroll-stage]');
 const processPage = experience?.querySelector<HTMLElement>('[data-process-page]');
@@ -127,7 +131,7 @@ if (
 					id: 'portfolio-page-transition',
 					trigger: experience,
 					start: 'top top',
-					end: () => `+=${Math.max(window.innerHeight * 4.25, 3000)}`,
+					end: () => `+=${Math.max(window.innerHeight * 5, 3400)}`,
 					pin: stage,
 					scrub: 0.65,
 					anticipatePin: 1,
@@ -169,6 +173,16 @@ if (
 						ease: 'power2.inOut',
 					},
 					1.52,
+				)
+				.to(
+					[showreelPage, showreelScreen],
+					{
+						backgroundColor: blueberry,
+						color: porridge,
+						duration: 0.58,
+						ease: 'power2.inOut',
+					},
+					2.92,
 				);
 
 			ScrollTrigger.refresh();
