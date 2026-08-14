@@ -8,15 +8,16 @@ const marqueeGroups = Array.from({ length: 4 }, () => expertiseAreas);
 
 <section
 	class="process-page"
+	id="process"
 	data-process-page
 	data-selection-theme="porridge"
 	aria-labelledby="process-heading"
 >
 	<h2 id="process-heading" class="sr-only">
-		I turn a messy idea into a scalable site that works.
+		Product design and engineering that turn messy ideas into scalable websites.
 	</h2>
 
-	<div class="process-marquee" data-process-marquee aria-label="Areas of expertise">
+	<section class="process-marquee" data-process-marquee aria-label="Areas of expertise">
 		<img class="process-marquee__line" src="/process-line.svg" alt="" />
 		<div class="process-marquee__viewport">
 			<div class="process-marquee__track" data-process-marquee-track>
@@ -37,7 +38,7 @@ const marqueeGroups = Array.from({ length: 4 }, () => expertiseAreas);
 			</div>
 		</div>
 		<img class="process-marquee__line process-marquee__line--bottom" src="/process-line.svg" alt="" />
-	</div>
+	</section>
 
 	<div class="process-figure process-figure--top" data-process-art aria-hidden="true">
 		<img

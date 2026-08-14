@@ -10,10 +10,9 @@ const {
 const repeatedGroups = Array.from({ length: 3 }, () => words);
 ---
 
-<div
+<section
 	class="marquee"
 	data-marquee
-	role="region"
 	aria-label={`Areas of expertise: ${words.join(', ')}`}
 >
 	<div class="marquee__track" data-marquee-track>
@@ -29,7 +28,7 @@ const repeatedGroups = Array.from({ length: 3 }, () => words);
 			))
 		}
 	</div>
-</div>
+</section>
 
 <style>
 	.marquee {

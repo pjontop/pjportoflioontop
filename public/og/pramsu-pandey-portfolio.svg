@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Pramsu Pandey — Product Designer and Full-Stack Engineer</title>
+  <desc id="description">Portfolio social preview in blueberry blue, white, and navy.</desc>
+  <rect width="1200" height="630" fill="#371bff"/>
+  <circle cx="1038" cy="-18" r="292" fill="#030260"/>
+  <circle cx="1148" cy="548" r="154" fill="#f2f2f2" opacity=".14"/>
+  <path d="M72 88H1128" stroke="#fff" stroke-width="2" opacity=".65"/>
+  <text x="72" y="64" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="1.4">PRAMSU PANDEY · OTTAWA, CANADA</text>
+  <text x="72" y="230" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="700" letter-spacing="-3">Product Designer +</text>
+  <text x="72" y="320" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="700" letter-spacing="-3">Full-Stack Engineer</text>
+  <rect x="72" y="378" width="825" height="42" rx="21" fill="#fff"/>
+  <text x="96" y="406" fill="#030260" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" letter-spacing="1.8">DESIGN · ENGINEERING · SECURITY · SCALE</text>
+  <text x="72" y="552" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700">Secure, resilient digital products built to scale.</text>
+  <text x="1015" y="576" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="end">pramsu.dev</text>
+</svg>

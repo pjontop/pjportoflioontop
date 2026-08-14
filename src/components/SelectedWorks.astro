@@ -1,7 +1,7 @@
 ---
 import asciiArtwork from '../shaders/ascii4.svg';
 import ProjectCard from './ProjectCard.astro';
-import { projectColumns } from '../data/site';
+import { projectColumns, siteConfig } from '../data/site';
 ---
 
 <div class="showreel-breath" aria-hidden="true"></div>
@@ -20,7 +20,13 @@ import { projectColumns } from '../data/site';
 	<div class="selected-works__grid">
 		{projectColumns.map((column) => (
 			<div class="selected-works__column">
-				{column.map((project) => <ProjectCard tall={project.tall} />)}
+				{column.map((project) => (
+					<ProjectCard
+						tall={project.tall}
+						title={project.title}
+						status={project.status}
+					/>
+				))}
 			</div>
 		))}
 	</div>
@@ -42,9 +48,13 @@ import { projectColumns } from '../data/site';
 		<img src="/pramsuSignature.svg" alt="" />
 	</div>
 
-	<p class="selected-works__contact" id="contact">
-		Contact Me
-	</p>
+	<a
+		class="selected-works__contact"
+		id="contact"
+		href={`mailto:${siteConfig.email}`}
+	>
+		Contact Me<span class="sr-only"> by email</span>
+	</a>
 </section>
 
 <style>
@@ -154,6 +164,7 @@ import { projectColumns } from '../data/site';
 		font-weight: var(--font-weight-semibold);
 		line-height: 1;
 		letter-spacing: -0.059375rem;
+		text-decoration: none;
 		transform: translateX(-50%);
 	}
 

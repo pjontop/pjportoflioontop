@@ -1,24 +1,22 @@
 ---
 interface Props {
 	tall?: boolean;
-	description?: string;
-	name?: string;
-	time?: string;
+	title: string;
+	status?: string;
 }
 
 const {
 	tall = false,
-	description = 'Description of the project',
-	name = 'NAME',
-	time = 'TIME',
+	title,
+	status = 'Coming soon',
 } = Astro.props;
 ---
 
 <article class:list={['project-card', { 'project-card--tall': tall }]}>
 	<div class="project-card__media" aria-hidden="true"></div>
 	<div class="project-card__meta">
-		<p>{description}</p>
-		<p>{name} • {time}</p>
+		<h3>{title}</h3>
+		<p>{status}</p>
 	</div>
 </article>
 
@@ -49,7 +47,10 @@ const {
 		letter-spacing: -0.0203125rem;
 	}
 
+	.project-card__meta h3,
 	.project-card__meta p {
+		margin: 0;
+		font: inherit;
 		white-space: nowrap;
 	}
 

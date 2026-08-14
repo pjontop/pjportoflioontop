@@ -12,35 +12,35 @@ import { navigationItems } from '../data/site';
 	data-foreground="porridge"
 	aria-label="Site navigation"
 >
-	<div class="identity" role="group" aria-label="Portfolio identity">
+	<a class="identity" href="#top" aria-label="Pramsu Pandey, back to top">
 		<p class="name">PRAMSU PANDEY</p>
 		<p class="role">PRODUCT DESIGNER + ENGINEER</p>
-	</div>
+	</a>
 
 	<nav class="primary-nav" aria-label="Primary navigation">
 		<Button
-			href="#pramsugpt"
-			label={'✦\u00a0\u00a0PRAMSUGPT'}
-			ariaLabel="Open PRAMSUGPT"
+			href="#showreel"
+			label={'✦\u00a0\u00a0SHOWREEL'}
+			ariaLabel="View selected work showreel"
 		/>
 	</nav>
 
 	<nav class="page-nav" aria-label="Portfolio navigation">
 		<Button href="#works" label="WORKS" ariaLabel="View selected works" />
+		<Button href="#process" label="PROCESS" ariaLabel="View design and engineering process" />
 		<Button href="#contact" label="CONTACT" ariaLabel="Go to contact section" />
-		<Button href="#resume" label="RESUME" ariaLabel="View resume" />
 	</nav>
 
 	<div class="staggered-menu-host">
 		<MobileMenu items={navigationItems} />
 	</div>
 
-	<nav class="mobile-gpt" aria-label="PRAMSUGPT navigation">
+	<nav class="mobile-gpt" aria-label="Showreel navigation">
 		<Button
-			href="#pramsugpt"
+			href="#showreel"
 			label="✦"
 			variant="floating"
-			ariaLabel="Open PRAMSUGPT"
+			ariaLabel="View selected work showreel"
 		/>
 	</nav>
 </header>
@@ -87,6 +87,8 @@ import { navigationItems } from '../data/site';
 
 	.identity {
 		gap: 2.4375rem;
+		color: inherit;
+		text-decoration: none;
 	}
 
 	.name,

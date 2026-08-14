@@ -9,43 +9,46 @@ import HeroMeta from '../components/HeroMeta.astro';
 import SecondPage from '../components/SecondPage.astro';
 import ThirdPage from '../components/ThirdPage.astro';
 import SelectedWorks from '../components/SelectedWorks.astro';
+import { siteConfig } from '../data/site';
 import '../styles/pages/home.css';
 ---
 
 <BaseLayout
-	title="Pramsu Pandey — Product Designer + Engineer"
-	description="Pramsu Pandey is a product designer and engineer creating secure, resilient digital experiences."
+	title={siteConfig.title}
+	description={siteConfig.description}
 >
 	<IntroAnimation />
 	<Navbar />
-	<div class="scroll-experience" data-scroll-experience>
-		<div class="scroll-stage" data-scroll-stage>
-			<section class="page-shell" aria-label="Introduction">
-				<div class="page-background" aria-hidden="true">
-					<BrailleShader />
-				</div>
+	<main id="main-content">
+		<div class="scroll-experience" data-scroll-experience>
+			<div class="scroll-stage" data-scroll-stage>
+				<section class="page-shell" aria-label="Introduction">
+					<div class="page-background" aria-hidden="true">
+						<BrailleShader />
+					</div>
 
-				<main class="page-content">
-					<Hero />
-				</main>
+					<div class="page-content">
+						<Hero />
+					</div>
 
-				<p class="page-intro">
-					Hi, I’m Pramsu, a product<br />
-					designer that engineers. I design<br />
-					digital experiences then make them<br />
-					secure and resilient.
-				</p>
+					<p class="page-intro">
+						Hi, I’m Pramsu—an Ottawa product<br />
+						designer and full-stack engineer. I turn<br />
+						ambitious ideas into secure, resilient<br />
+						digital products built to scale.
+					</p>
 
-				<HeroMeta />
-			</section>
+					<HeroMeta />
+				</section>
 
-			<SecondPage />
-			<ThirdPage />
-			<ShowreelCard />
+				<SecondPage />
+				<ThirdPage />
+				<ShowreelCard />
+			</div>
 		</div>
-	</div>
 
-	<SelectedWorks />
+		<SelectedWorks />
+	</main>
 
 	<script src="../scripts/scrollExperience.ts"></script>
 </BaseLayout>
