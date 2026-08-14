@@ -7,10 +7,19 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 const experience = document.querySelector<HTMLElement>('[data-scroll-experience]');
 const stage = experience?.querySelector<HTMLElement>('[data-scroll-stage]');
 const processPage = experience?.querySelector<HTMLElement>('[data-process-page]');
+const showreelPage = experience?.querySelector<HTMLElement>('[data-showreel-page]');
+const showreelDestination = experience?.querySelector<HTMLElement>(
+	'[data-showreel-destination]',
+);
+const showreel = experience?.querySelector<HTMLElement>('[data-showreel]');
+const showreelScreen = experience?.querySelector<HTMLElement>(
+	'[data-showreel-screen]',
+);
 const marqueeTrack = experience?.querySelector<HTMLElement>('[data-process-marquee-track]');
 const marqueeGroup = experience?.querySelector<HTMLElement>('[data-process-marquee-group]');
-const navbar = experience?.querySelector<HTMLElement>('[data-site-navbar]');
+const navbar = document.querySelector<HTMLElement>('[data-site-navbar]');
 const navbarRole = navbar?.querySelector<HTMLElement>('.role');
+const selectedWorks = document.querySelector<HTMLElement>('.selected-works');
 const splitElements = Array.from(
 	experience?.querySelectorAll<HTMLElement>('[data-split-copy]') ?? [],
 );
@@ -22,6 +31,10 @@ if (
 	experience &&
 	stage &&
 	processPage &&
+	showreelPage &&
+	showreelDestination &&
+	showreel &&
+	showreelScreen &&
 	marqueeTrack &&
 	marqueeGroup &&
 	navbar &&
@@ -32,8 +45,12 @@ if (
 	if (reducedMotion.matches) {
 		experience.dataset.reducedMotion = 'true';
 		navbar.dataset.light = 'true';
+		gsap.set(navbar, { color: '#371bff' });
+		gsap.set(navbarRole, { color: '#030260' });
 	} else {
 		gsap.set(processPage, { yPercent: 100, autoAlpha: 1 });
+		gsap.set(showreelPage, { yPercent: 100, autoAlpha: 1 });
+		gsap.set(showreel, { xPercent: -50, x: 0 });
 
 		document.fonts.ready.then(() => {
 			const splitInstances = splitElements.map(
@@ -104,13 +121,13 @@ if (
 					id: 'portfolio-page-transition',
 					trigger: experience,
 					start: 'top top',
-					end: () => `+=${Math.max(window.innerHeight * 2.15, 1500)}`,
+					end: () => `+=${Math.max(window.innerHeight * 4.25, 3000)}`,
 					pin: stage,
 					scrub: 0.65,
 					anticipatePin: 1,
 					invalidateOnRefresh: true,
 					onUpdate: (self) => {
-						navbar.dataset.light = String(self.progress > 0.88);
+						navbar.dataset.light = String(self.progress > 0.35);
 					},
 				},
 			});
@@ -142,6 +159,22 @@ if (
 					navbarRole,
 					{ color: '#030260', duration: 0.16, ease: 'power1.out' },
 					1.02,
+				)
+				.to(showreelPage, { yPercent: 0, duration: 0.9 }, 1.42)
+				.to(
+					showreelScreen,
+					{
+						top: () => showreelDestination.offsetTop - showreel.offsetTop,
+						left: () =>
+							showreelDestination.offsetLeft -
+							(showreel.offsetLeft - showreel.offsetWidth / 2),
+						width: () => showreelDestination.offsetWidth,
+						height: () => showreelDestination.offsetHeight,
+						borderRadius: 14,
+						duration: 1.35,
+						ease: 'power2.inOut',
+					},
+					1.52,
 				);
 
 			ScrollTrigger.refresh();
@@ -153,11 +186,33 @@ if (
 						window.removeEventListener('wheel', onWheel);
 						window.removeEventListener('scroll', onScroll);
 						timeline.scrollTrigger?.kill();
-					timeline.kill();
-					splitInstances.forEach((instance) => instance.revert());
-				},
+						timeline.kill();
+						splitInstances.forEach((instance) => instance.revert());
+					},
 				{ once: true },
 			);
+		});
+	}
+
+	if (selectedWorks) {
+		const selectedWorksTheme = ScrollTrigger.create({
+			trigger: selectedWorks,
+			start: () =>
+				`top ${navbar.getBoundingClientRect().top + navbar.offsetHeight / 2}px`,
+			onEnter: () => {
+				navbar.dataset.light = 'false';
+				gsap.to(navbar, { color: '#ffffff', duration: 0.16 });
+				gsap.to(navbarRole, { color: '#d9d9d9', duration: 0.16 });
+			},
+			onLeaveBack: () => {
+				navbar.dataset.light = 'true';
+				gsap.to(navbar, { color: '#371bff', duration: 0.16 });
+				gsap.to(navbarRole, { color: '#030260', duration: 0.16 });
+			},
+		});
+
+		window.addEventListener('pagehide', () => selectedWorksTheme.kill(), {
+			once: true,
 		});
 	}
 }

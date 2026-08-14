@@ -1,10 +1,13 @@
 ---
 import Navbar from '../components/Navbar.astro';
+import IntroAnimation from '../components/IntroAnimation.astro';
 import Hero from '../components/Hero.astro';
 import BrailleShader from '../components/BrailleShader.astro';
 import ShowreelCard from '../components/ShowreelCard.astro';
 import HeroMeta from '../components/HeroMeta.astro';
 import SecondPage from '../components/SecondPage.astro';
+import ThirdPage from '../components/ThirdPage.astro';
+import SelectedWorks from '../components/SelectedWorks.astro';
 import '../styles/globals.css';
 ---
 
@@ -22,7 +25,9 @@ import '../styles/globals.css';
 		<meta name="generator" content={Astro.generator} />
 		<title>Pramsu Pandey — Product Designer + Engineer</title>
 	</head>
-	<body>
+	<body id="top">
+		<IntroAnimation />
+		<Navbar />
 		<div class="scroll-experience" data-scroll-experience>
 			<div class="scroll-stage" data-scroll-stage>
 				<section class="page-shell" aria-label="Introduction">
@@ -45,10 +50,12 @@ import '../styles/globals.css';
 				</section>
 
 				<SecondPage />
-				<Navbar />
+				<ThirdPage />
 				<ShowreelCard />
 			</div>
 		</div>
+
+		<SelectedWorks />
 
 		<script src="../scripts/scrollExperience.ts"></script>
 	</body>

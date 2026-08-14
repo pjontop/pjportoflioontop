@@ -1,10 +1,10 @@
-<section class="showreel" aria-label="Showreel preview">
+<section class="showreel" data-showreel aria-label="Showreel preview">
 	<header class="showreel__header">
 		<img src="/status-dot.svg" alt="" width="11" height="11" />
 		<p>SHOWREEL</p>
 	</header>
 
-	<div class="showreel__screen" aria-hidden="true">
+	<div class="showreel__screen" data-showreel-screen aria-hidden="true">
 		<div class="showreel__mark">
 			<span></span>
 			<span></span>
@@ -50,13 +50,15 @@
 
 	.showreel__screen {
 		position: absolute;
-		right: 0.6875rem;
-		bottom: 0.75rem;
+		top: 5.25rem;
 		left: 0.6875rem;
+		z-index: 2;
+		width: calc(100% - 1.375rem);
 		height: 7.1875rem;
 		overflow: hidden;
 		border-radius: 0.25rem;
 		background: var(--color-porridge);
+		will-change: top, left, width, height, border-radius;
 	}
 
 	.showreel__mark {

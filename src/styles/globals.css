@@ -56,12 +56,23 @@ body {
 	line-height: 1.5;
 }
 
+body.is-intro-playing {
+	overflow: hidden;
+}
+
 img,
 picture,
 svg,
 video {
 	display: block;
 	max-width: 100%;
+}
+
+svg,
+img[src*=".svg"] {
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	user-select: none;
 }
 
 button,

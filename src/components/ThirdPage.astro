@@ -1,0 +1,67 @@
+<section
+	class="showreel-page"
+	data-showreel-page
+	data-selection-theme="porridge"
+	id="showreel"
+	aria-labelledby="showreel-page-heading"
+>
+	<h2 id="showreel-page-heading" class="sr-only">Selected work showreel</h2>
+	<div class="showreel-page__destination" data-showreel-destination aria-hidden="true"></div>
+</section>
+
+<style>
+	.showreel-page {
+		position: absolute;
+		inset: 0;
+		z-index: 7;
+		height: 100%;
+		overflow: hidden;
+		background: var(--color-paper);
+		color: var(--color-blueberry);
+		visibility: hidden;
+		color: var(--color-blueberry)
+	}
+
+	.showreel-page__destination {
+		position: absolute;
+		top: 11rem;
+		right: 1.5625rem;
+		bottom: 1.25rem;
+		left: 1.4375rem;
+		border-radius: 0.875rem;
+		background: transparent;
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	@media (max-width: 47.99rem) {
+		.showreel-page__destination {
+			top: 8.5rem;
+			right: 1.5rem;
+			bottom: 1.5rem;
+			left: 1.5rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.showreel-page {
+			position: relative;
+			min-height: max(100svh, 52rem);
+			visibility: visible;
+		}
+
+		.showreel-page__destination {
+			background: var(--color-porridge);
+		}
+	}
+</style>

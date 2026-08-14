@@ -1,47 +1,9 @@
 ---
+import topArtwork from '../shaders/ascii2.svg';
+import bottomArtwork from '../shaders/ascii3.svg';
+
 const marqueeItems = ['ENGINEERING', 'DESIGN', 'SECURITY', 'SCALE'];
 const marqueeGroups = Array.from({ length: 4 }, () => marqueeItems);
-
-const topFigure = `⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡼⣆
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣄⣀⣖⣦⣼⣏⠀⢨⣗⠺⠛⣧⡄
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢄⢇⣸⠏⢉⠘⡿⣷⣶⡿⠃⣀⡄⡠⣇⠀⠀⠀⠀⣠⠾⣇⠦⡀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣆⠉⢿⣆⠸⣦⠀⣭⣷⢀⣾⢏⢤⡾⠀⠀⢀⡴⣶⠃⢘⣏⡼⠉⠉⢽⣤
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣦⣌⣿⣿⣯⣷⣿⣿⣮⣿⣶⠏⠀⠀⣶⡏⢰⣿⣆⣾⡏⠁⣠⡆⢀⣼⣀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠿⡯⠿⠿⣿⣿⡿⠋⣡⡄⠀⠀⢸⣏⠀⣜⢹⢻⣿⣧⣟⣥⣼⣿⣃⣽
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⢦⣉⣿⣇⠼⠙⣦⡾⡆⣿⣯⣿⣽⣟⡾⠿⡽⣿⣷⡈⠀⠈⣸⠁
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠤⠼⠙⢷⢦⡀⠀⣴⡒⢛⠀⠈⠛⡗⠀⡐⠀⠀⢰⣿⣟⣻⣿⣟⡭⠝⠋⢒⣫⠟⠓⠒⠁
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣻⡆⠹⣦⠀⢨⡇⡴⣼⣇⠀⢱⡀⢁⡗⠀⡦⠀⢠⣾⢷⣻⣿⣿⣟⠪⠆⢠⠟⠁
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⢦⣄⣼⣿⣮⡷⡱⢝⣾⢕⣄⡳⣔⣣⣴⣫⣴⡿⠿⠓⠒⠒⠢⢬⡉⠉⠁
-⠀⠀⠀⠀⠀⠀⠀⠀⣤⣞⠉⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣯⣿⣿⣿⣿⠷⠶⠀⠀⠀⣰⡿⠋
-⠀⠀⠀⠀⠀⠀⠀⠀⣀⣉⣷⣶⣿⣿⠿⣿⣿⢿⣟⣋⠁⠀⣀⣋⠭⣿⣾⣞⡿⣷⣄⣀⣤⣤⡬⠕⠂
-⠀⠀⠀⠀⢀⣠⣴⣿⣿⣿⣿⠟⢏⣰⠞⢳⠛⣾⠹⣾⡿⠁⠐⠀⣰⡿⣏⠹⣧⡈⠻⡿⣗⣦⣄⠀⠀⣀⣀⣤⣤⣤⣄⡀
-⠀⢀⣤⣾⣿⣿⣿⠛⠉⠘⠒⠒⠊⠹⠬⠼⠚⠁⠐⢻⣦⡶⠶⠴⠋⠀⢻⡄⠉⠛⢄⣰⡊⠙⢺⣳⣾⣟⣛⣁⠤⠤⣬⠽
-⣰⣿⣿⣿⠻⠁⠀⠀⠀⠀⠀⢀⣶⠀⠀⠀⠀⠀⠀⠀⠉⣿⣶⣦⣤⡀⠀⠻⠒⠲⠞⠀⠀⠀⢠⣿⡹⣾⡁⠙⢳⣯⣽⠇
-⠐⢿⣿⠟⠁⠀⠀⠀⠀⠀⠀⣸⡿⢻⠀⠀⠀⠀⠀⠀⠀⢀⣾⢯⢭⠥⠽⡄⠀⠀⠀⠀⠀⠀⠀⢸⡸⢿⣧⡁⢠⠼⠍⠁
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡏⠑⣸⡆⠀⠀⠀⠀⠀⠀⠈⢫⡄⢻⣄⡀⢰⠀⠀⠀⠀⠀⠀⠀⠘⡥⠀⠺⣍⣯
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡟⠁⠀⢿⣷⠀⠀⠀⠀⠀⠀⠀⠈⠻⣮⡟⠻⢾⡄⠀⠀⠀⠀⠀⠀⠀⠻⣾⣦⠟⠋
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢶⡄⠀⠙⣟⣦⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⣶⣶⣦⣤⡀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠛⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢡⡇⢷⣹⣷
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡇⢈⡇⠙⡇
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡼⠃⠜⢁⣴⡇
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠧⠴⠛⠋`;
-
-const bottomFigure = `⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⢿⡿⣶⡄
-⠀⠀⠀⠀⠀⠀⠀⣠⡼⣯⡿⣽⡷⣿⢿⡿⣷
-⠀⠀⠀⠀⠀⠀⠐⣿⣽⣷⡟⣯⣿⣽⣯⣿⣽⠂⠀⢠⣶⣿⡟⣦⠀⣶⣶⣶⣶⡄
-⠀⠀⠀⠀⠀⠀⠀⢻⣽⣾⣻⠏⠀⠈⣿⣞⠟⢀⣴⣿⣻⢾⣽⣟⡿⣯⢿⣽⢯⣷
-⠀⠀⠀⠀⡀⠀⡀⢀⠻⣾⡽⣷⠀⠀⠸⣻⠀⣸⣟⠾⣽⣯⠷⣻⣽⣟⡿⣾⣻⢧
-⠀⠀⢠⣾⣇⣀⢧⣨⣇⣏⡙⠯⣧⡄⠀⣟⠀⡿⠀⠀⠈⠀⠀⢀⣿⢾⣻⡷⣟⣿⠃
-⠀⠀⠘⢷⡏⠐⠊⠰⠃⠈⠛⢷⡷⣄⡀⠀⠀⡅⠀⢀⣠⣶⡿⠻⠏⢛⡓⠛⠋⠁
-⠀⢀⣤⣦⣴⡶⣶⢶⣴⣤⣀⠀⠙⢟⡿⣦⠀⠀⠀⠛⣉⣴⡴⣞⡿⣟⣿⣻⣗⣦
-⢀⣾⡿⣽⣯⢷⠛⠈⠉⠛⠛⠂⠀⠘⢷⣻⠀⠀⠀⠒⠛⠉⠁⢻⡷⣟⣯⡿⣽⢿⡄
-⣠⣿⢯⣟⣷⣻⢿⣤⣤⡤⠤⠶⣶⠆⠀⠀⠀⠀⣠⡀⠀⠀⠀⠀⠉⠙⢻⣽⣻⢯⣿⡿⡅
-⠙⠋⢿⣻⣞⣯⣿⣽⠚⢁⣤⡾⠁⠀⠀⠀⣾⠀⣿⣇⠀⠀⢰⣦⣀⣠⣼⢯⣟⡿⣿⣻⢿
-⠀⠀⠀⢿⣽⠳⠏⣠⡾⣟⣷⢿⣦⣤⠀⠀⢸⡄⢸⣯⢿⣶⣻⢾⣟⡿⣞⣿⣽⣻⢯⠿⠁
-⠀⠀⠀⠀⠀⠀⣿⡽⣟⣾⣯⡷⣟⣧⣤⣿⣻⡀⠹⣟⣾⡽⣿⣞⡿⣯⠏⠉⠉⠁
-⠀⠀⠀⠀⠀⠀⠻⠻⢿⣧⣟⡿⣿⣻⢧⣟⣧⡇⠀⠘⠟⣿⣧⢿⠻⠃
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣞⣿⣳⣿⣻⣽⢯⡇
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠿⣾⣽⡾⠙⠊⠁`;
 ---
 
 <section
@@ -78,7 +40,14 @@ const bottomFigure = `⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⢿⡿⣶⡄
 	</div>
 
 	<div class="process-figure process-figure--top" data-process-art aria-hidden="true">
-		<pre>{topFigure}</pre>
+		<img
+			class="process-figure__art"
+			src={topArtwork.src}
+			alt=""
+			width={topArtwork.width}
+			height={topArtwork.height}
+			decoding="async"
+		/>
 	</div>
 
 	<div class="process-copy process-copy--left" data-split-copy aria-hidden="true">
@@ -94,7 +63,14 @@ const bottomFigure = `⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⢿⡿⣶⡄
 	</div>
 
 	<div class="process-figure process-figure--bottom" data-process-art aria-hidden="true">
-		<pre>{bottomFigure}</pre>
+		<img
+			class="process-figure__art"
+			src={bottomArtwork.src}
+			alt=""
+			width={bottomArtwork.width}
+			height={bottomArtwork.height}
+			decoding="async"
+		/>
 	</div>
 </section>
 
@@ -220,29 +196,26 @@ const bottomFigure = `⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⢿⡿⣶⡄
 	.process-figure {
 		position: absolute;
 		z-index: 1;
-		color: var(--color-blueberry);
-		font-family: "Manrope", system-ui, sans-serif;
-		font-size: 1.25rem;
-		font-weight: 600;
-		line-height: 1;
-		letter-spacing: -0.03125rem;
-		white-space: pre;
 	}
 
-	.process-figure pre {
-		margin: 0;
-		font: inherit;
+	.process-figure__art {
+		display: block;
+		width: 100%;
+		height: auto;
+		max-width: none;
 	}
 
 	.process-figure--top {
 		top: 8.0625rem;
 		left: 45.9375%;
+		width: 42.6875rem;
 		transform: rotate(180deg);
 	}
 
 	.process-figure--bottom {
 		top: 27.9375rem;
 		left: -3.9375rem;
+		width: 23.8125rem;
 	}
 
 	@media (max-width: 47.99rem) {
@@ -282,18 +255,19 @@ const bottomFigure = `⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⢿⡿⣶⡄
 		}
 
 		.process-figure {
-			font-size: 1rem;
 			opacity: 0.75;
 		}
 
 		.process-figure--top {
 			top: 8.5rem;
 			left: 34%;
+			width: 34.15rem;
 		}
 
 		.process-figure--bottom {
 			top: 28rem;
 			left: -15rem;
+			width: 19.05rem;
 		}
 	}
 

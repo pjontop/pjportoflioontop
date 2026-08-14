@@ -1,0 +1,173 @@
+<div class="intro-animation" data-intro-animation aria-hidden="true">
+	<div class="intro-animation__art" data-intro-art>
+		<span
+			class="intro-animation__signature intro-animation__signature--base"
+		></span>
+		<img
+			class="intro-animation__signature intro-animation__signature--ink"
+			src="/introPramsuSignature.svg"
+			alt=""
+			width="1280"
+			height="149"
+			fetchpriority="high"
+		/>
+	</div>
+</div>
+
+<style>
+	.intro-animation {
+		--intro-ease: linear(0, 0.0006, 0.0006, 0.0007, 0.0009, 0.001, 0.0011, 0.0013, 0.0015, 0.0017, 0.002, 0.0022, 0.0026, 0.003, 0.0034, 0.0039, 0.0045, 0.0052, 0.0059, 0.0068, 0.0078, 0.009, 0.0103, 0.0118, 0.0136, 0.0156, 0.0179, 0.0206, 0.0237, 0.0272, 0.0313, 0.0359, 0.0412, 0.0474, 0.0544, 0.0625, 0.0718, 0.0825, 0.0947, 0.1088, 0.125, 0.1436, 0.1649, 0.1895, 0.2176, 0.25, 0.2872, 0.3299, 0.3789, 0.4353, 0.5, 0.5647, 0.6211, 0.6701, 0.7128, 0.75, 0.7824, 0.8105, 0.8351, 0.8564, 0.875, 0.8912, 0.9053, 0.9175, 0.9282, 0.9375, 0.9456, 0.9526, 0.9588, 0.9641, 0.9688, 0.9728, 0.9763, 0.9794, 0.9821, 0.9844, 0.9864, 0.9882, 0.9897, 0.991, 0.9922, 0.9932, 0.9941, 0.9948, 0.9955, 0.9961, 0.9966, 0.997, 0.9974, 0.9978, 0.998, 0.9983, 0.9985, 0.9987, 0.9989, 0.999, 0.9991, 0.9993, 0.9994, 0.9994, 1);
+		--intro-start-y: calc(53.3053svh - 5.8203vw);
+		--intro-end-x: 0px;
+		--intro-end-y: 0px;
+		--intro-end-scale: 1;
+
+		position: fixed;
+		inset: 0;
+		z-index: 1000;
+		overflow: hidden;
+		background: var(--color-blueberry);
+		transition:
+			opacity 120ms linear,
+			visibility 0s linear 120ms;
+	}
+
+	.intro-animation__art {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		aspect-ratio: 1280 / 149;
+		transform: translate3d(0, var(--intro-start-y), 0) scale(1);
+		transform-origin: 0 0;
+		will-change: transform;
+	}
+
+	.intro-animation.is-playing .intro-animation__art {
+		animation: intro-signature-settle 1.1s var(--intro-ease) 1.85s both;
+	}
+
+	.intro-animation__signature {
+		position: absolute;
+		inset: 0;
+		display: block;
+		width: 100%;
+		height: 100%;
+		max-width: none;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	.intro-animation__signature--base {
+		background: #707983;
+		-webkit-mask: url('/introPramsuSignature.svg') center / 100% 100% no-repeat;
+		mask: url('/introPramsuSignature.svg') center / 100% 100% no-repeat;
+	}
+
+	.intro-animation__signature--ink {
+		clip-path: inset(-2% 100% -2% 0);
+		will-change: clip-path;
+	}
+
+	.intro-animation.is-playing .intro-animation__signature--ink {
+		animation: intro-signature-draw 1.6s var(--intro-ease) 150ms both;
+	}
+
+	.intro-animation.is-complete {
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+	@keyframes intro-signature-draw {
+		to {
+			clip-path: inset(-2% 0 -2% 0);
+		}
+	}
+
+	@keyframes intro-signature-settle {
+		to {
+			transform: translate3d(var(--intro-end-x), var(--intro-end-y), 0)
+				scale(var(--intro-end-scale));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.intro-animation {
+			display: none;
+		}
+	}
+</style>
+
+<script>
+	const intro = document.querySelector<HTMLElement>('[data-intro-animation]');
+	const art = intro?.querySelector<HTMLElement>('[data-intro-art]');
+	const heroSignature = document.querySelector<HTMLElement>('[data-hero-signature]');
+	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+	if (intro && art && heroSignature && !reducedMotion.matches) {
+		const setDestination = () => {
+			const target = heroSignature.getBoundingClientRect();
+			const introHeight = window.innerWidth * (149 / 1280);
+			const targetHeight = target.width * (307 / 1280);
+			const artworkXOffset = target.width * (-701 / 1280);
+
+			intro.style.setProperty('--intro-end-x', `${target.left + artworkXOffset}px`);
+			intro.style.setProperty('--intro-end-y', `${target.top}px`);
+			intro.style.setProperty(
+				'--intro-end-scale',
+				String(targetHeight / introHeight),
+			);
+		};
+
+		const finishIntro = () => {
+			intro.classList.add('is-complete');
+			document.body.classList.remove('is-intro-playing');
+			window.removeEventListener('resize', setDestination);
+			art.removeEventListener('animationend', onAnimationEnd);
+			window.setTimeout(() => intro.remove(), 140);
+		};
+
+		const onAnimationEnd = (event: AnimationEvent) => {
+			if (
+				event.target !== art ||
+				event.animationName !== 'intro-signature-settle'
+			) {
+				return;
+			}
+
+			finishIntro();
+		};
+
+		const startIntro = () => {
+			document.body.classList.add('is-intro-playing');
+			setDestination();
+			window.addEventListener('resize', setDestination, { passive: true });
+			art.addEventListener('animationend', onAnimationEnd);
+			intro.classList.add('is-playing');
+		};
+
+		const resolveIntro = () => {
+			const hasRestoredPosition = window.scrollY > 8 || window.location.hash !== '';
+
+			if (hasRestoredPosition) {
+				intro.remove();
+				return;
+			}
+
+			startIntro();
+		};
+
+		if (document.readyState === 'complete') {
+			window.requestAnimationFrame(resolveIntro);
+		} else {
+			window.addEventListener(
+				'pageshow',
+				() => window.requestAnimationFrame(resolveIntro),
+				{ once: true },
+			);
+		}
+	} else {
+		intro?.remove();
+	}
+</script>

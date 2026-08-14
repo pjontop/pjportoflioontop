@@ -1,0 +1,291 @@
+---
+import asciiArtwork from '../shaders/selected-works-ascii.svg';
+
+const projectColumns = [
+	[
+		{ tall: false },
+		{ tall: false },
+	],
+	[
+		{ tall: true },
+		{ tall: false },
+	],
+];
+---
+
+<div class="showreel-breath" aria-hidden="true"></div>
+
+<section
+	class="selected-works"
+	id="works"
+	data-selection-theme="blueberry"
+	aria-labelledby="selected-works-heading"
+>
+	<h2 id="selected-works-heading" class="selected-works__heading">
+		<span>Selected</span>
+		<em>works</em>
+	</h2>
+
+	<div class="selected-works__grid">
+		{projectColumns.map((column) => (
+			<div class="selected-works__column">
+				{column.map((project) => (
+					<article class:list={['project-card', { 'project-card--tall': project.tall }]}>
+						<div class="project-card__media" aria-hidden="true"></div>
+						<div class="project-card__meta">
+							<p>Description of the project</p>
+							<p>NAME • TIME</p>
+						</div>
+					</article>
+				))}
+			</div>
+		))}
+	</div>
+
+	<img
+		class="selected-works__ascii"
+		src={asciiArtwork.src}
+		alt=""
+		width={asciiArtwork.width}
+		height={asciiArtwork.height}
+		decoding="async"
+	/>
+
+	<p class="selected-works__quote">
+		It is by logic that we prove, but by intuition that we create.
+	</p>
+
+	<div class="selected-works__signature" aria-hidden="true">
+		<img src="/pramsuSignature.svg" alt="" />
+	</div>
+
+	<p class="selected-works__contact" id="contact">
+		Contact Me
+	</p>
+</section>
+
+<style>
+	.showreel-breath {
+		height: clamp(10rem, 22vh, 14rem);
+		background: var(--color-paper);
+	}
+
+	.selected-works {
+		position: relative;
+		min-height: 126.875rem;
+		overflow: hidden;
+		background: var(--color-blueberry);
+		color: var(--color-porridge);
+	}
+
+	.selected-works__heading {
+		position: absolute;
+		top: 12.8125rem;
+		left: 1.375rem;
+		z-index: 4;
+		display: flex;
+		align-items: baseline;
+		gap: 0.7rem;
+		margin: 0;
+		font-family: "Manrope", system-ui, sans-serif;
+		font-size: 7.5rem;
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: -0.1875rem;
+		white-space: nowrap;
+	}
+
+	.selected-works__heading em {
+		font-family: "Magilio Slant", "Iowan Old Style", Baskerville, serif;
+		font-size: inherit;
+		font-style: normal;
+		font-weight: 400;
+	}
+
+	.selected-works__grid {
+		position: absolute;
+		top: 22.6875rem;
+		left: 1.375rem;
+		right: 1.25rem;
+		z-index: 4;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1.375rem;
+	}
+
+	.project-card + .project-card {
+		margin-top: 0.75rem;
+	}
+
+	.project-card__media {
+		height: 22.6875rem;
+		border-radius: 0.375rem;
+		background: var(--color-porridge);
+	}
+
+	.project-card--tall .project-card__media {
+		height: 32.4375rem;
+	}
+
+	.project-card__meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 0.75rem;
+		font-family: "Manrope", system-ui, sans-serif;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: -0.0203125rem;
+	}
+
+	.project-card__meta p {
+		margin: 0;
+		white-space: nowrap;
+	}
+
+	.selected-works__ascii {
+		position: absolute;
+		top: 69.5625rem;
+		left: 0;
+		z-index: 1;
+		width: 95.546875%;
+		height: auto;
+		max-width: none;
+		pointer-events: none;
+	}
+
+	.selected-works__quote {
+		position: absolute;
+		top: 96.8125rem;
+		left: 50%;
+		z-index: 5;
+		width: max-content;
+		max-width: calc(100% - 2.75rem);
+		margin: 0;
+		font-family: "Manrope", system-ui, sans-serif;
+		font-size: 2.5rem;
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: -0.0625rem;
+		text-align: center;
+		transform: translateX(-50%);
+	}
+
+	.selected-works__signature {
+		position: absolute;
+		top: 102.0625rem;
+		left: -53.046875%;
+		z-index: 2;
+		width: 206.04%;
+		height: 19.1875rem;
+		pointer-events: none;
+	}
+
+	.selected-works__signature img {
+		width: 100%;
+		height: 100%;
+		max-width: none;
+	}
+
+	.selected-works__contact {
+		position: absolute;
+		top: 113.375rem;
+		left: 50%;
+		z-index: 6;
+		display: grid;
+		width: 17.875rem;
+		height: 4.5625rem;
+		place-items: center;
+		border-radius: 0.625rem;
+		background: var(--color-porridge);
+		color: var(--color-blueberry) !important;
+		font-family: "Manrope", system-ui, sans-serif;
+		font-size: 2.375rem;
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: -0.059375rem;
+		transform: translateX(-50%);
+	}
+
+	@media (max-width: 60rem) {
+		.selected-works__heading {
+			font-size: clamp(4.5rem, 9.375vw, 7.5rem);
+		}
+	}
+
+	@media (max-width: 47.99rem) {
+		.showreel-breath {
+			height: 9rem;
+		}
+
+		.selected-works {
+			--mobile-card-height: clamp(14rem, 62vw, 24rem);
+			--mobile-art-top: calc(
+				26rem + var(--mobile-card-height) + var(--mobile-card-height) +
+					var(--mobile-card-height) + var(--mobile-card-height)
+			);
+			min-height: calc(var(--mobile-art-top) + 43rem);
+		}
+
+		.selected-works__heading {
+			top: 8.5rem;
+			left: 1.5rem;
+			gap: 0.35rem;
+			font-size: clamp(3rem, 14vw, 5.5rem);
+			letter-spacing: -0.12rem;
+		}
+
+		.selected-works__grid {
+			top: 15rem;
+			left: 1.5rem;
+			right: 1.5rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.75rem;
+		}
+
+		.project-card + .project-card {
+			margin-top: 0.75rem;
+		}
+
+		.project-card__media,
+		.project-card--tall .project-card__media {
+			height: var(--mobile-card-height);
+		}
+
+		.project-card__meta {
+			font-size: 0.625rem;
+		}
+
+		.selected-works__ascii {
+			top: var(--mobile-art-top);
+			left: -45%;
+			width: 190%;
+		}
+
+		.selected-works__quote {
+			top: calc(var(--mobile-art-top) + 16rem);
+			width: calc(100% - 3rem);
+			font-size: clamp(1.4rem, 6vw, 2.25rem);
+			line-height: 1.08;
+			white-space: normal;
+		}
+
+		.selected-works__signature {
+			top: calc(var(--mobile-art-top) + 22rem);
+			left: -104%;
+			width: 308%;
+			height: 14rem;
+		}
+
+		.selected-works__contact {
+			top: calc(var(--mobile-art-top) + 32rem);
+			width: 13rem;
+			height: 3.75rem;
+			font-size: 1.75rem;
+		}
+	}
+
+</style>
