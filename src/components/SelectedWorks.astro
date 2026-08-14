@@ -1,16 +1,7 @@
 ---
 import asciiArtwork from '../shaders/ascii4.svg';
-
-const projectColumns = [
-	[
-		{ tall: false },
-		{ tall: false },
-	],
-	[
-		{ tall: true },
-		{ tall: false },
-	],
-];
+import ProjectCard from './ProjectCard.astro';
+import { projectColumns } from '../data/site';
 ---
 
 <div class="showreel-breath" aria-hidden="true"></div>
@@ -29,15 +20,7 @@ const projectColumns = [
 	<div class="selected-works__grid">
 		{projectColumns.map((column) => (
 			<div class="selected-works__column">
-				{column.map((project) => (
-					<article class:list={['project-card', { 'project-card--tall': project.tall }]}>
-						<div class="project-card__media" aria-hidden="true"></div>
-						<div class="project-card__meta">
-							<p>Description of the project</p>
-							<p>NAME • TIME</p>
-						</div>
-					</article>
-				))}
+				{column.map((project) => <ProjectCard tall={project.tall} />)}
 			</div>
 		))}
 	</div>
@@ -81,22 +64,21 @@ const projectColumns = [
 	.selected-works__heading {
 		position: absolute;
 		top: 12.8125rem;
-		left: 1.375rem;
+		left: var(--page-gutter);
 		z-index: 4;
 		display: flex;
 		align-items: baseline;
 		gap: 0.7rem;
 		margin: 0;
-		font-family: "Manrope", system-ui, sans-serif;
 		font-size: 7.5rem;
-		font-weight: 600;
+		font-weight: var(--font-weight-semibold);
 		line-height: 1;
 		letter-spacing: -0.1875rem;
 		white-space: nowrap;
 	}
 
 	.selected-works__heading em {
-		font-family: "Magilio Slant", "Iowan Old Style", Baskerville, serif;
+		font-family: var(--font-display);
 		font-size: inherit;
 		font-style: normal;
 		font-weight: 400;
@@ -105,44 +87,12 @@ const projectColumns = [
 	.selected-works__grid {
 		position: absolute;
 		top: 22.6875rem;
-		left: 1.375rem;
-		right: 1.25rem;
+		left: var(--page-gutter);
+		right: var(--page-gutter);
 		z-index: 4;
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 1.375rem;
-	}
-
-	.project-card + .project-card {
-		margin-top: 0.75rem;
-	}
-
-	.project-card__media {
-		height: 22.6875rem;
-		border-radius: 0.375rem;
-		background: var(--color-porridge);
-	}
-
-	.project-card--tall .project-card__media {
-		height: 32.4375rem;
-	}
-
-	.project-card__meta {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		margin-top: 0.75rem;
-		font-family: "Manrope", system-ui, sans-serif;
-		font-size: 0.8125rem;
-		font-weight: 600;
-		line-height: 1;
-		letter-spacing: -0.0203125rem;
-	}
-
-	.project-card__meta p {
-		margin: 0;
-		white-space: nowrap;
 	}
 
 	.selected-works__ascii {
@@ -164,9 +114,8 @@ const projectColumns = [
 		width: max-content;
 		max-width: calc(100% - 2.75rem);
 		margin: 0;
-		font-family: "Manrope", system-ui, sans-serif;
 		font-size: 2.5rem;
-		font-weight: 600;
+		font-weight: var(--font-weight-semibold);
 		line-height: 1;
 		letter-spacing: -0.0625rem;
 		text-align: center;
@@ -201,9 +150,8 @@ const projectColumns = [
 		border-radius: 0.625rem;
 		background: var(--color-porridge);
 		color: var(--color-blueberry) !important;
-		font-family: "Manrope", system-ui, sans-serif;
 		font-size: 2.375rem;
-		font-weight: 600;
+		font-weight: var(--font-weight-semibold);
 		line-height: 1;
 		letter-spacing: -0.059375rem;
 		transform: translateX(-50%);
@@ -231,7 +179,7 @@ const projectColumns = [
 
 		.selected-works__heading {
 			top: 8.5rem;
-			left: 1.5rem;
+			left: var(--page-gutter);
 			gap: 0.35rem;
 			font-size: clamp(3rem, 14vw, 5.5rem);
 			letter-spacing: -0.12rem;
@@ -239,24 +187,11 @@ const projectColumns = [
 
 		.selected-works__grid {
 			top: 15rem;
-			left: 1.5rem;
-			right: 1.5rem;
+			left: var(--page-gutter);
+			right: var(--page-gutter);
 			display: flex;
 			flex-direction: column;
 			gap: 0.75rem;
-		}
-
-		.project-card + .project-card {
-			margin-top: 0.75rem;
-		}
-
-		.project-card__media,
-		.project-card--tall .project-card__media {
-			height: var(--mobile-card-height);
-		}
-
-		.project-card__meta {
-			font-size: 0.625rem;
 		}
 
 		.selected-works__ascii {

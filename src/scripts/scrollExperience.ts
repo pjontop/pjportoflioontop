@@ -17,9 +17,6 @@ const showreelScreen = experience?.querySelector<HTMLElement>(
 );
 const marqueeTrack = experience?.querySelector<HTMLElement>('[data-process-marquee-track]');
 const marqueeGroup = experience?.querySelector<HTMLElement>('[data-process-marquee-group]');
-const navbar = document.querySelector<HTMLElement>('[data-site-navbar]');
-const navbarRole = navbar?.querySelector<HTMLElement>('.role');
-const selectedWorks = document.querySelector<HTMLElement>('.selected-works');
 const splitElements = Array.from(
 	experience?.querySelectorAll<HTMLElement>('[data-split-copy]') ?? [],
 );
@@ -36,21 +33,30 @@ if (
 	showreel &&
 	showreelScreen &&
 	marqueeTrack &&
-	marqueeGroup &&
-	navbar &&
-	navbarRole
+	marqueeGroup
 ) {
 	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const setHeaderScrollMode = () => {
+		const isPastSecondPageTop = processPage.getBoundingClientRect().top <= 0;
+		document.documentElement.dataset.headerScrollActive = String(
+			isPastSecondPageTop,
+		);
+	};
 
 	if (reducedMotion.matches) {
 		experience.dataset.reducedMotion = 'true';
-		navbar.dataset.light = 'true';
-		gsap.set(navbar, { color: '#371bff' });
-		gsap.set(navbarRole, { color: '#030260' });
+		setHeaderScrollMode();
+		window.addEventListener('scroll', setHeaderScrollMode, { passive: true });
+		window.addEventListener(
+			'pagehide',
+			() => window.removeEventListener('scroll', setHeaderScrollMode),
+			{ once: true },
+		);
 	} else {
 		gsap.set(processPage, { yPercent: 100, autoAlpha: 1 });
 		gsap.set(showreelPage, { yPercent: 100, autoAlpha: 1 });
 		gsap.set(showreel, { xPercent: -50, x: 0 });
+		setHeaderScrollMode();
 
 		document.fonts.ready.then(() => {
 			const splitInstances = splitElements.map(
@@ -126,9 +132,7 @@ if (
 					scrub: 0.65,
 					anticipatePin: 1,
 					invalidateOnRefresh: true,
-					onUpdate: (self) => {
-						navbar.dataset.light = String(self.progress > 0.35);
-					},
+					onUpdate: setHeaderScrollMode,
 				},
 			});
 
@@ -150,16 +154,6 @@ if (
 					},
 					0.66,
 				)
-				.to(
-					navbar,
-					{ color: '#371bff', duration: 0.16, ease: 'power1.out' },
-					1.02,
-				)
-				.to(
-					navbarRole,
-					{ color: '#030260', duration: 0.16, ease: 'power1.out' },
-					1.02,
-				)
 				.to(showreelPage, { yPercent: 0, duration: 0.9 }, 1.42)
 				.to(
 					showreelScreen,
@@ -178,6 +172,7 @@ if (
 				);
 
 			ScrollTrigger.refresh();
+			setHeaderScrollMode();
 
 			window.addEventListener(
 				'pagehide',
@@ -191,28 +186,6 @@ if (
 					},
 				{ once: true },
 			);
-		});
-	}
-
-	if (selectedWorks) {
-		const selectedWorksTheme = ScrollTrigger.create({
-			trigger: selectedWorks,
-			start: () =>
-				`top ${navbar.getBoundingClientRect().top + navbar.offsetHeight / 2}px`,
-			onEnter: () => {
-				navbar.dataset.light = 'false';
-				gsap.to(navbar, { color: '#ffffff', duration: 0.16 });
-				gsap.to(navbarRole, { color: '#d9d9d9', duration: 0.16 });
-			},
-			onLeaveBack: () => {
-				navbar.dataset.light = 'true';
-				gsap.to(navbar, { color: '#371bff', duration: 0.16 });
-				gsap.to(navbarRole, { color: '#030260', duration: 0.16 });
-			},
-		});
-
-		window.addEventListener('pagehide', () => selectedWorksTheme.kill(), {
-			once: true,
 		});
 	}
 }

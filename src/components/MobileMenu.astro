@@ -1,0 +1,63 @@
+---
+import '../styles/components/mobile-menu.css';
+
+interface MenuItem {
+	label: string;
+	ariaLabel: string;
+	link: string;
+}
+
+interface Props {
+	items: MenuItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="mobile-menu" data-mobile-menu>
+	<div class="mobile-menu__layers" data-menu-layers aria-hidden="true">
+		<div class="mobile-menu__layer mobile-menu__layer--navy"></div>
+		<div class="mobile-menu__layer mobile-menu__layer--blueberry"></div>
+	</div>
+
+	<button
+		class="mobile-menu__toggle"
+		data-menu-toggle
+		type="button"
+		aria-label="Open menu"
+		aria-expanded="false"
+		aria-controls="mobile-menu-panel"
+	>
+		<span class="mobile-menu__icon" aria-hidden="true">
+			<span class="mobile-menu__icon-line" data-menu-icon-horizontal></span>
+			<span class="mobile-menu__icon-line" data-menu-icon-vertical></span>
+		</span>
+	</button>
+
+	<nav
+		class="mobile-menu__panel"
+		data-menu-panel
+		id="mobile-menu-panel"
+		aria-label="Mobile navigation"
+		aria-hidden="true"
+		data-selection-theme="porridge"
+		inert
+	>
+		<ul class="mobile-menu__list" role="list">
+			{items.map((item) => (
+				<li class="mobile-menu__item-wrap">
+					<a
+						class="mobile-menu__item"
+						data-menu-item
+						href={item.link}
+						aria-label={item.ariaLabel}
+					>
+						<span data-menu-item-label>{item.label}</span>
+					</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+</div>
+
+<script src="../scripts/mobileMenu.ts"></script>

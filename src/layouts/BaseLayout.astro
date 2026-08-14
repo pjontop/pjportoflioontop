@@ -1,0 +1,30 @@
+---
+import '../styles/globals.css';
+import CustomCursor from '../components/CustomCursor.astro';
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#371bff" />
+		<meta name="description" content={description} />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<title>{title}</title>
+		<slot name="head" />
+	</head>
+	<body id="top">
+		<CustomCursor />
+		<slot />
+	</body>
+</html>

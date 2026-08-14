@@ -1,25 +1,20 @@
 ---
 import Button from './Button.astro';
-import StaggeredMenu from './StaggeredMenu';
-
-const menuItems = [
-	{ label: 'Works', ariaLabel: 'View selected works', link: '#works' },
-	{ label: 'Contact', ariaLabel: 'Get in contact', link: '#contact' },
-	{ label: 'Resume', ariaLabel: 'View resume', link: '#resume' },
-];
+import MobileMenu from './MobileMenu.astro';
+import { navigationItems } from '../data/site';
 ---
 
 <header
 	class="site-navbar"
 	data-site-navbar
 	data-compact="false"
+	data-visible="true"
+	data-foreground="porridge"
 	aria-label="Site navigation"
 >
 	<div class="identity" role="group" aria-label="Portfolio identity">
 		<p class="name">PRAMSU PANDEY</p>
-		<p class="role">
-			PRODUCT DESIGNER + ENGINEER
-		</p>
+		<p class="role">PRODUCT DESIGNER + ENGINEER</p>
 	</div>
 
 	<nav class="primary-nav" aria-label="Primary navigation">
@@ -37,18 +32,7 @@ const menuItems = [
 	</nav>
 
 	<div class="staggered-menu-host">
-		<StaggeredMenu
-			client:load
-			position="right"
-			colors={['#030260', '#371bff']}
-			items={menuItems}
-			displaySocials={false}
-			displayItemNumbering={false}
-			menuButtonColor="#ffffff"
-			openMenuButtonColor="#371bff"
-			accentColor="#371bff"
-			isFixed={true}
-		/>
+		<MobileMenu items={navigationItems} />
 	</div>
 
 	<nav class="mobile-gpt" aria-label="PRAMSUGPT navigation">
@@ -65,23 +49,34 @@ const menuItems = [
 	.site-navbar {
 		position: fixed;
 		top: 1.4375rem;
-		left: 1.75rem;
-		right: 1.75rem;
+		left: var(--page-gutter);
+		right: var(--page-gutter);
 		z-index: 100;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		color: var(--color-porridge);
-		font-family: "Manrope", system-ui, sans-serif;
 		font-size: 14px;
 		font-style: normal;
-		font-weight: 500;
+		font-weight: var(--font-weight-medium);
 		line-height: 100%;
 		letter-spacing: -0.015em;
+		transform: translate3d(0, 0, 0);
+		transition:
+			color 220ms ease,
+			opacity 280ms ease,
+			transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+		will-change: color, opacity, transform;
 	}
 
-	.site-navbar[data-light="true"] .staggered-menu-host :global(.sm-toggle) {
+	.staggered-menu-host :global(.mobile-menu[data-open] .mobile-menu__toggle) {
 		color: var(--color-blueberry) !important;
+	}
+
+	.site-navbar[data-visible="false"] {
+		opacity: 0;
+		transform: translate3d(0, calc(-100% - 2rem), 0);
+		pointer-events: none;
 	}
 
 	.identity,
@@ -101,7 +96,8 @@ const menuItems = [
 	}
 
 	.role {
-		color: var(--color-suite-gray);
+		color: inherit;
+		opacity: 0.72;
 	}
 
 	.primary-nav {
@@ -135,19 +131,9 @@ const menuItems = [
 		display: block;
 	}
 
-	.staggered-menu-host :global(.sm-logo) {
-		display: none;
-	}
-
-	.staggered-menu-host :global(.sm-toggle-textWrap) {
-		display: none;
-	}
-
 	@media (max-width: 47.99rem) {
 		.site-navbar {
 			top: 1.5rem;
-			left: 1.5rem;
-			right: 1.5rem;
 		}
 
 		.mobile-gpt :global(.text-button--floating) {
@@ -162,35 +148,12 @@ const menuItems = [
 			display: none;
 		}
 	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.site-navbar {
+			transition: color 120ms linear;
+		}
+	}
 </style>
 
-<script>
-	const navbar = document.querySelector<HTMLElement>('[data-site-navbar]');
-	const identity = navbar?.querySelector<HTMLElement>('.identity');
-	const pramsuGpt = navbar?.querySelector<HTMLElement>('.primary-nav');
-
-	if (navbar && identity && pramsuGpt) {
-		let compactAt = 0;
-
-		const updateLayout = () => {
-			navbar.dataset.compact = String(window.innerWidth <= compactAt);
-		};
-
-		const measureBreakpoint = () => {
-			navbar.dataset.compact = 'false';
-			const rootFontSize = Number.parseFloat(
-				getComputedStyle(document.documentElement).fontSize,
-			);
-			const requiredGap = rootFontSize * 1.75;
-			const identityWidth = identity.getBoundingClientRect().width;
-			const pramsuGptWidth = pramsuGpt.getBoundingClientRect().width;
-
-			compactAt = pramsuGptWidth + 2 * (identityWidth + requiredGap * 2);
-			updateLayout();
-		};
-
-		requestAnimationFrame(measureBreakpoint);
-		document.fonts.ready.then(measureBreakpoint);
-		window.addEventListener('resize', updateLayout, { passive: true });
-	}
-</script>
+<script src="../scripts/navbar.ts"></script>

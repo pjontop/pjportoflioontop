@@ -1,0 +1,70 @@
+---
+interface Props {
+	tall?: boolean;
+	description?: string;
+	name?: string;
+	time?: string;
+}
+
+const {
+	tall = false,
+	description = 'Description of the project',
+	name = 'NAME',
+	time = 'TIME',
+} = Astro.props;
+---
+
+<article class:list={['project-card', { 'project-card--tall': tall }]}>
+	<div class="project-card__media" aria-hidden="true"></div>
+	<div class="project-card__meta">
+		<p>{description}</p>
+		<p>{name} • {time}</p>
+	</div>
+</article>
+
+<style>
+	.project-card + .project-card {
+		margin-top: 0.75rem;
+	}
+
+	.project-card__media {
+		height: 22.6875rem;
+		border-radius: var(--radius-md);
+		background: var(--color-porridge);
+	}
+
+	.project-card--tall .project-card__media {
+		height: 32.4375rem;
+	}
+
+	.project-card__meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 0.75rem;
+		font-size: 0.8125rem;
+		font-weight: var(--font-weight-semibold);
+		line-height: 1;
+		letter-spacing: -0.0203125rem;
+	}
+
+	.project-card__meta p {
+		white-space: nowrap;
+	}
+
+	@media (max-width: 47.99rem) {
+		.project-card + .project-card {
+			margin-top: 0.75rem;
+		}
+
+		.project-card__media,
+		.project-card--tall .project-card__media {
+			height: var(--mobile-card-height);
+		}
+
+		.project-card__meta {
+			font-size: 0.625rem;
+		}
+	}
+</style>

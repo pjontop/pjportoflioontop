@@ -124,8 +124,9 @@ const {
 </style>
 
 <script>
-	const PORRIDGE = '#ffffff';
-	const BLUEBERRY = '#371bff';
+	const rootStyles = getComputedStyle(document.documentElement);
+	const PORRIDGE = rootStyles.getPropertyValue('--color-porridge').trim();
+	const BLUEBERRY = rootStyles.getPropertyValue('--color-blueberry').trim();
 
 	const parseRgb = (color: string) => {
 		const channels = color.match(/[\d.]+/g)?.map(Number);

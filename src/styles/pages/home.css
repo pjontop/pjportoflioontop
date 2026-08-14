@@ -1,0 +1,71 @@
+.scroll-experience {
+	position: relative;
+}
+
+.scroll-stage {
+	position: relative;
+	height: max(100svh, var(--stage-min-height));
+	overflow: hidden;
+	isolation: isolate;
+}
+
+.page-shell {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	height: 100%;
+	overflow: hidden;
+}
+
+.page-background {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	overflow: hidden;
+	pointer-events: none;
+	user-select: none;
+}
+
+.page-content {
+	position: relative;
+	z-index: 1;
+}
+
+.page-intro {
+	position: absolute;
+	bottom: 1.3125rem;
+	left: var(--page-gutter);
+	z-index: 1;
+	max-width: 42rem;
+	color: var(--color-porridge);
+	font-size: 1.5rem;
+	font-weight: var(--font-weight-semibold);
+	line-height: 1;
+	letter-spacing: -0.0375rem;
+}
+
+@media (max-width: 47.99rem) {
+	.scroll-stage {
+		height: max(100svh, var(--stage-min-height-mobile));
+	}
+
+	.page-intro {
+		right: var(--page-gutter);
+		bottom: 10.5rem;
+		max-width: 21rem;
+		font-size: 1.25rem;
+		letter-spacing: -0.03125rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.scroll-stage {
+		height: auto;
+		overflow: visible;
+	}
+
+	.page-shell {
+		position: relative;
+		min-height: max(100svh, var(--stage-min-height));
+	}
+}

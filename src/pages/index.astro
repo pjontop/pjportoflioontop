@@ -1,4 +1,5 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import IntroAnimation from '../components/IntroAnimation.astro';
 import Hero from '../components/Hero.astro';
@@ -8,135 +9,43 @@ import HeroMeta from '../components/HeroMeta.astro';
 import SecondPage from '../components/SecondPage.astro';
 import ThirdPage from '../components/ThirdPage.astro';
 import SelectedWorks from '../components/SelectedWorks.astro';
-import '../styles/globals.css';
+import '../styles/pages/home.css';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#371bff" />
-		<meta
-			name="description"
-			content="Pramsu Pandey is a product designer and engineer creating secure, resilient digital experiences."
-		/>
-		<meta name="generator" content={Astro.generator} />
-		<title>Pramsu Pandey — Product Designer + Engineer</title>
-	</head>
-	<body id="top">
-		<IntroAnimation />
-		<Navbar />
-		<div class="scroll-experience" data-scroll-experience>
-			<div class="scroll-stage" data-scroll-stage>
-				<section class="page-shell" aria-label="Introduction">
-					<div class="page-background" aria-hidden="true">
-						<BrailleShader />
-					</div>
+<BaseLayout
+	title="Pramsu Pandey — Product Designer + Engineer"
+	description="Pramsu Pandey is a product designer and engineer creating secure, resilient digital experiences."
+>
+	<IntroAnimation />
+	<Navbar />
+	<div class="scroll-experience" data-scroll-experience>
+		<div class="scroll-stage" data-scroll-stage>
+			<section class="page-shell" aria-label="Introduction">
+				<div class="page-background" aria-hidden="true">
+					<BrailleShader />
+				</div>
 
-					<main class="page-content">
-						<Hero />
-					</main>
+				<main class="page-content">
+					<Hero />
+				</main>
 
-					<p class="page-intro">
-						Hi, I’m Pramsu, a product<br />
-						designer that engineers. I design<br />
-						digital experiences then make them<br />
-						secure and resilient.
-					</p>
+				<p class="page-intro">
+					Hi, I’m Pramsu, a product<br />
+					designer that engineers. I design<br />
+					digital experiences then make them<br />
+					secure and resilient.
+				</p>
 
-					<HeroMeta />
-				</section>
+				<HeroMeta />
+			</section>
 
-				<SecondPage />
-				<ThirdPage />
-				<ShowreelCard />
-			</div>
+			<SecondPage />
+			<ThirdPage />
+			<ShowreelCard />
 		</div>
+	</div>
 
-		<SelectedWorks />
+	<SelectedWorks />
 
-		<script src="../scripts/scrollExperience.ts"></script>
-	</body>
-</html>
-
-<style>
-	.scroll-experience {
-		position: relative;
-	}
-
-	.scroll-stage {
-		position: relative;
-		height: 52rem;
-		height: max(100svh, 52rem);
-		overflow: hidden;
-		isolation: isolate;
-	}
-
-	.page-shell {
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-		height: 100%;
-		overflow: hidden;
-	}
-
-	.page-background {
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-		overflow: hidden;
-		pointer-events: none;
-		user-select: none;
-	}
-
-	.page-content {
-		position: relative;
-		z-index: 1;
-	}
-
-	.page-intro {
-		position: absolute;
-		bottom: 1.3125rem;
-		left: 1.375rem;
-		z-index: 1;
-		max-width: 42rem;
-		margin: 0;
-		color: var(--color-porridge);
-		font-family: "Manrope", system-ui, sans-serif;
-		font-size: 1.5rem;
-		font-style: normal;
-		font-weight: 600;
-		line-height: 100%;
-		letter-spacing: -0.0375rem;
-	}
-
-	@media (max-width: 40rem) {
-		.scroll-stage {
-			height: 50rem;
-			height: max(100svh, 50rem);
-		}
-
-		.page-intro {
-			right: 1.5rem;
-			bottom: 10.5rem;
-			left: 1.5rem;
-			max-width: 21rem;
-			font-size: 1.25rem;
-			letter-spacing: -0.03125rem;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.scroll-stage {
-			height: auto;
-			overflow: visible;
-		}
-
-		.page-shell {
-			position: relative;
-			min-height: max(100svh, 52rem);
-		}
-	}
-</style>
+	<script src="../scripts/scrollExperience.ts"></script>
+</BaseLayout>
