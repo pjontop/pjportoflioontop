@@ -4,6 +4,7 @@ import Hero from '../components/Hero.astro';
 import BrailleShader from '../components/BrailleShader.astro';
 import ShowreelCard from '../components/ShowreelCard.astro';
 import HeroMeta from '../components/HeroMeta.astro';
+import SecondPage from '../components/SecondPage.astro';
 import '../styles/globals.css';
 ---
 
@@ -22,34 +23,55 @@ import '../styles/globals.css';
 		<title>Pramsu Pandey — Product Designer + Engineer</title>
 	</head>
 	<body>
-		<div class="page-shell">
-			<div class="page-background" aria-hidden="true">
-				<BrailleShader />
+		<div class="scroll-experience" data-scroll-experience>
+			<div class="scroll-stage" data-scroll-stage>
+				<section class="page-shell" aria-label="Introduction">
+					<div class="page-background" aria-hidden="true">
+						<BrailleShader />
+					</div>
+
+					<main class="page-content">
+						<Hero />
+					</main>
+
+					<p class="page-intro">
+						Hi, I’m Pramsu, a product<br />
+						designer that engineers. I design<br />
+						digital experiences then make them<br />
+						secure and resilient.
+					</p>
+
+					<HeroMeta />
+				</section>
+
+				<SecondPage />
+				<Navbar />
+				<ShowreelCard />
 			</div>
-
-			<Navbar />
-			<main class="page-content">
-				<Hero />
-			</main>
-			<ShowreelCard />
-
-			<p class="page-intro">
-				Hi, I’m Pramsu, a product<br />
-				designer that engineers. I design<br />
-				digital experiences then make them<br />
-				secure and resilient.
-			</p>
-
-			<HeroMeta />
 		</div>
+
+		<script src="../scripts/scrollExperience.ts"></script>
 	</body>
 </html>
 
 <style>
-	.page-shell {
+	.scroll-experience {
 		position: relative;
-		min-height: 52rem;
-		min-height: max(100svh, 52rem);
+	}
+
+	.scroll-stage {
+		position: relative;
+		height: 52rem;
+		height: max(100svh, 52rem);
+		overflow: hidden;
+		isolation: isolate;
+	}
+
+	.page-shell {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		height: 100%;
 		overflow: hidden;
 	}
 
@@ -84,8 +106,9 @@ import '../styles/globals.css';
 	}
 
 	@media (max-width: 40rem) {
-		.page-shell {
-			min-height: 50rem;
+		.scroll-stage {
+			height: 50rem;
+			height: max(100svh, 50rem);
 		}
 
 		.page-intro {
@@ -95,6 +118,18 @@ import '../styles/globals.css';
 			max-width: 21rem;
 			font-size: 1.25rem;
 			letter-spacing: -0.03125rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.scroll-stage {
+			height: auto;
+			overflow: visible;
+		}
+
+		.page-shell {
+			position: relative;
+			min-height: max(100svh, 52rem);
 		}
 	}
 </style>
