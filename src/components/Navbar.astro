@@ -64,16 +64,16 @@ const menuItems = [
 <style>
 	.site-navbar {
 		position: absolute;
-		top: 1.5rem;
-		left: 2rem;
-		right: 2rem;
+		top: 1.4375rem;
+		left: 1.75rem;
+		right: 1.75rem;
 		z-index: 10;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		color: var(--color-porridge);
 		font-family: "Manrope", system-ui, sans-serif;
-		font-size: 16px;
+		font-size: 14px;
 		font-style: normal;
 		font-weight: 500;
 		line-height: 100%;
@@ -87,7 +87,7 @@ const menuItems = [
 	}
 
 	.identity {
-		gap: 1.5rem;
+		gap: 2.4375rem;
 	}
 
 	.name,
@@ -137,6 +137,26 @@ const menuItems = [
 
 	.staggered-menu-host :global(.sm-toggle-textWrap) {
 		display: none;
+	}
+
+	@media (max-width: 47.99rem) {
+		.site-navbar {
+			top: 1.5rem;
+			left: 1.5rem;
+			right: 1.5rem;
+		}
+
+		.mobile-gpt :global(.text-button--floating) {
+			top: 1rem;
+			right: 4.25rem;
+			bottom: auto;
+		}
+	}
+
+	@media (max-width: 31.25rem) {
+		.role {
+			display: none;
+		}
 	}
 </style>
 

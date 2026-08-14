@@ -58,9 +58,32 @@ const marqueeWords = ['ENGINEERING', 'DESIGN', 'SECURITY', 'SCALE'];
 	.hero__marquee {
 		position: absolute;
 		/* Keep the strip attached to the same point on the responsive signature. */
-		top: 78.1759%;
+		top: 74.5928%;
 		left: 50%;
 		z-index: 1;
 		transform: translateX(-50%);
+	}
+
+	@media (max-width: 47.99rem) {
+		.hero {
+			padding-top: 6rem;
+		}
+
+		.hero__signature-stage {
+			height: 15.25rem;
+		}
+
+		.hero__signature {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			width: 46rem;
+			max-width: none;
+			transform: translateX(-50%);
+		}
+
+		.hero__marquee {
+			top: 10.75rem;
+		}
 	}
 </style>
