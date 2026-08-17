@@ -1,43 +1,88 @@
-# Astro Starter Kit: Minimal
+# my portfolio!!
 
-```sh
-npm create astro@latest -- --template minimal
+hello! this is my personal portfolio, i'm Pramsu and i'm a product designer + full-stack engineer from Ottawa. i made this site to show who i am, what i do, and (eventually) all the cool stuff i've worked on.
+
+you can see it here: **[pramsu.dev](https://pramsu.dev)**
+
+![my portfolio homepage](public/og/pramsu-pandey-portfolio.png)
+
+## why i built this
+
+i obviously needed a portfolio, but i REALLY did not want one of those super boring sites that's just a picture, some text, and 3 cards under it. i wanted the site itself to feel like one of my projects and actually show both the design and engineering stuff i like doing.
+
+so i ended up making this very motion-heavy site with giant typography, ascii art, weird transitions, my signature everywhere, and a scroll animation that took WAY longer to get right than i expected. the main idea is that i take messy ideas and turn them into real, polished products that actually work.
+
+the project cards are placeholders rn because i'm still getting the full case studies ready (coming soon trust).
+
+## cool stuff it does
+
+- the first few pages all transition into each other while you scroll
+- the little expertise banner speeds up depending on how you scroll
+- it has a custom cursor because the normal cursor was apparently not enough for me
+- the whole thing works on phones too, including a separate mobile menu
+- animations turn off if you have reduced motion enabled
+- it has proper sharing images, search metadata, a sitemap, and all that fun SEO stuff
+- basically all the text and project info is kept in one file so i don't have to search through 900 components later
+
+## what i used
+
+- [Astro](https://astro.build/) for the actual site
+- TypeScript for the interactive stuff
+- [GSAP](https://gsap.com/) for the VERY many scroll animations
+- regular CSS for everything else (no giant UI library!!!)
+
+## running it yourself
+
+you need Node.js 22.12 or newer and npm. then just do this:
+
+```bash
+git clone https://github.com/pjontop/pjportoflioontop.git
+cd pjportoflioontop
+npm install
+npm run astro -- dev --background
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+then open `http://localhost:4321` and it should hopefully be alive.
 
-## 🚀 Project Structure
+the dev server runs in the background, so these are the useful commands:
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+npm run astro -- dev status
+npm run astro -- dev logs
+npm run astro -- dev stop
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+there are no environment variables or accounts you need to set up, which is nice.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## other commands
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+npm run check    # checks for Astro/TypeScript problems
+npm run build    # makes the final production site
+npm run preview  # previews the production build
+```
 
-## 🧞 Commands
+## where everything is
 
-All commands are run from the root of the project, from a terminal:
+- `src/components` has all the different sections and UI pieces
+- `src/data/site.ts` has my info, links, and project cards
+- `src/pages/index.astro` puts the homepage together
+- `src/scripts` has the scrolling, cursor, navbar, and mobile menu logic
+- `src/styles` has the global and page CSS
+- `src/shaders` has the ascii-style SVG art
+- `public` has the fonts, icons, signatures, and preview image
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+the big scroll sequence is mostly controlled by `src/scripts/scrollExperience.ts`. it moves from the intro, to the process page, to the showreel, and then finally lets you continue down to the projects and contact section. yes it is as annoying to debug as it sounds.
 
-## 👀 Want to learn more?
+## before uploading changes
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+i usually run these so i don't deploy something completely broken:
+
+```bash
+npm run check
+npm run build
+```
+
+## credits
+
+designed and built by me, [Pramsu Pandey](https://github.com/pjontop), using Astro and GSAP. HUGE thanks to the people who made those because i do not want to imagine writing these animations completely from scratch.

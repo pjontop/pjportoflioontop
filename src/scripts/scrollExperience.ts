@@ -62,6 +62,51 @@ if (
 		gsap.set(showreel, { xPercent: -50, x: 0 });
 		setHeaderScrollMode();
 
+		let transitionTimeline: gsap.core.Timeline | undefined;
+		let processNavigationPending = false;
+		const processLinks = Array.from(
+			document.querySelectorAll<HTMLAnchorElement>('a[href="#process"]'),
+		);
+		const scrollToProcess = (behavior: ScrollBehavior = 'smooth') => {
+			const scrollTrigger = transitionTimeline?.scrollTrigger;
+
+			if (!transitionTimeline || !scrollTrigger) {
+				processNavigationPending = true;
+				return;
+			}
+
+			const processProgress =
+				transitionTimeline.labels.process / transitionTimeline.duration();
+			const targetScroll =
+				scrollTrigger.start +
+				(scrollTrigger.end - scrollTrigger.start) * processProgress;
+
+			processNavigationPending = false;
+			window.scrollTo({ top: targetScroll, behavior });
+		};
+		const onProcessLinkClick = (event: MouseEvent) => {
+			if (
+				event.defaultPrevented ||
+				event.button !== 0 ||
+				event.metaKey ||
+				event.ctrlKey ||
+				event.shiftKey ||
+				event.altKey
+			) {
+				return;
+			}
+
+			event.preventDefault();
+			if (window.location.hash !== '#process') {
+				history.pushState(null, '', '#process');
+			}
+			scrollToProcess();
+		};
+
+		processLinks.forEach((link) =>
+			link.addEventListener('click', onProcessLinkClick),
+		);
+
 		document.fonts.ready.then(() => {
 			const splitInstances = splitElements.map(
 				(element) =>
@@ -139,9 +184,11 @@ if (
 					onUpdate: setHeaderScrollMode,
 				},
 			});
+			transitionTimeline = timeline;
 
 			timeline
 				.to(processPage, { yPercent: 0, duration: 1.2 }, 0)
+				.addLabel('process', 1.2)
 				.to(
 					processArt,
 					{ opacity: 1, duration: 0.28, stagger: 0.045, ease: 'power2.out' },
@@ -187,6 +234,9 @@ if (
 
 			ScrollTrigger.refresh();
 			setHeaderScrollMode();
+			if (processNavigationPending || window.location.hash === '#process') {
+				scrollToProcess(processNavigationPending ? 'smooth' : 'auto');
+			}
 
 			window.addEventListener(
 				'pagehide',
@@ -194,6 +244,9 @@ if (
 						cancelAnimationFrame(marqueeFrameId);
 						window.removeEventListener('wheel', onWheel);
 						window.removeEventListener('scroll', onScroll);
+						processLinks.forEach((link) =>
+							link.removeEventListener('click', onProcessLinkClick),
+						);
 						timeline.scrollTrigger?.kill();
 						timeline.kill();
 						splitInstances.forEach((instance) => instance.revert());
